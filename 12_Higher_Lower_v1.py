@@ -1,14 +1,50 @@
 import random
-
 import math
 
 # HL  component 1 - Get (and check) user input 
+# Function goes here 
+def instructions ():
+  print("**** Welcome to the Higher or Lower Game ****")
+  print("For each game you will be asked to....")
+  print("- Enter a 'low' and 'high' number. The compute'r will randomly generate a 'secret' number between your two chosen numbers. It will use these numbers for all the rounds in agiven game.")
+  print(" - The computer will calculate how many guesses yo are allowed ")
+  print("- enter the onumber of rounds you want to play")
+  print("- guess the secret number")
+  print()
+  print()
+  print("Good Luck!")
+  
+def yes_no(question):
+    valid = False
+    while not valid:
+        response = input(question).lower()
+        if response == "yes" or response == "y":
+            response = "yes"
+            return response
+
+        elif response == "no" or response == "n":
+            response = "no"
+            return response
+
+        else:
+            print("Please answer yes/no")
+
+
+
+# Main  routine
+played_before= yes_no("Have you played the game before? ")
+print()
+
+if played_before == "no":
+    instructions()
+
+print()
 
 # To do 
-# Check a lowest is an integer (any integer)
-# Check that highest is more than lowest (lower bound only)
+# Check a low is an integer (any integer)
+# Check that high is more than low (lower bound only)
 # Check that rounds is more than 1 (upper bound only)
-# Check that guss is betweeen lowest and highest 9
+# Check that guss is betweeen low and high 9
 # lower and upper bound0
 
 
@@ -54,37 +90,26 @@ def int_check(question, low=None, high=None):
   
 # Main routine 
 # HL component 11 - Maximum Guesses Calculator
+print()
+# Set up ythe gam parameters (range, number of numbers)
+low = int(input("Low Number: "))
+high = int(input(" High Number: ", low + 1))
 
+# works out nmber of guesses 
+num_range = high - low + 1
+max_raw = math.log2(num_range)  # finds maximum # of guesses using math.log2
+max_upped = math.ceil(max_raw)  # rounds up (ceil----> ceiling )
+max_guesses = max_upped + 1
 
-for item in range(0, 4):   # loop component for esay testing......
+print("Max Guesses: {}".format(max_guesses )) 
 
-  low = int(input("Low: "))   # use int check in due course 
-  high = int(input("High: ")) # use int check in due course 
+rounds = 2    # replace with call to number checker
+#H/L Integer 
 
-  range = high - low + 1
-  max_raw = math.log2(range)  # finds maximum # of guesses using math.log2
-  max_upped = math.ceil(max_raw)  # rounds up (ceil----> ceiling )
-  max_guesses = max_upped + 1
-  print("Max Guessed: {}".format(max_guesses))
-
-  print()
-
-  lowest = int_check("Low Number: ")
-  highest = int_check(" High Number: ", lowest + 1)
-  rounds = int_check( "Rounds: ", 1)
-  guess = int_check("Guess: ", lowest, highest)
-
-  # HL component 5 - no duplicates
-
-  # To Do 
-  # set up empty list called already_guessed
-  # when user guesses, add guess to list 
-  # for each guess, check that number is not in already_guessed
-
-  # HL component 5 - Prevents duplicate gusses
-
-  secret = 7
-  guesses_allowed = guess 
+for item in range(0, rounds):
+  secret = random.randit(low, high)
+  print("Spoiler alert, the secret is", secret)
+  guesses_allowed = max_guesses 
 
   already_guessed =[]
   guesses_left = guesses_allowed
@@ -93,16 +118,17 @@ for item in range(0, 4):   # loop component for esay testing......
   guess = ""
 
   while guess != secret and guesses_left >= 1:
-    guess = int(input("Guesses: "))  # replace this with function
+    guess = int_check("Guess: ", low, high)  # replace this with function
 
     #v checks that guess is not a duplicate 
-    if guess in already_guessed :
+    if guess in already_guessed:
       print("You already guessed that number! Please try again ","You *still* have {} guesses left".format(guesses_left))
       continue
-    
+
     guesses_left -= 1
     already_guessed.append(guess)
 
+    # Compare number if we have guesses left and ask use to try again 
     if guesses_left >= 1:
 
       if guess < secret:
@@ -110,19 +136,21 @@ for item in range(0, 4):   # loop component for esay testing......
 
       elif guess > secret:
         print("Too high, try a lower number. Guesses left : {}".format(guesses_left))
-      continue
-      
+
+    # compare numbers if user is on their last guess
     else:
       if guess < secret:
         print("Too low!")
       elif guess > secret:
         print("Too high!")
+    # If user is correct, output success message based on number of guesses needed. 
+      if guess == secret:
+        if guesses_left == guesses_allowed -1:
+          print("Amazing! You got it")
+      else:
+        print("Well done! You got it")
 
-    if guess == secret:
-      if guesses_left == guesses_allowed -1:
-        print("Amazing! You got it")
-    else:
-      print("Well done! You got it")
-  
+      break
+    
   # HL component 11 - Maximum Guesses Calculator
 
