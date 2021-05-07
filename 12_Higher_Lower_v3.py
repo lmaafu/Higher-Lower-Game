@@ -106,6 +106,9 @@ if played_before == "no":
     instructions()
     print()
 
+# Game History
+game_summary = [] 
+
 
 # Set up the game parameters (range, number of numbers)
 low = int_check("Low Number: ") # checks for the low number 
@@ -173,7 +176,7 @@ while keep_going == "yes":
 
       rounds_played += 1
 
-      #v checks that guess is not a duplicate
+      # checks that guess is not a duplicate
       if guess in already_guessed:
           print("You already guessed that number! Please try again ",
                 "You *still* have {} guesses left".format(guesses_left))
@@ -210,9 +213,16 @@ while keep_going == "yes":
 
           break
 
+
+game_summary.append(outcome)
     # HL component 11 - Maximum Guesses Calculator
 
-# Game History
+# End Game Summary
+print()
+print("***** Game History *******")
+for game in game_summary:
+  print(game)
+
 
 # End Game Summary
    
